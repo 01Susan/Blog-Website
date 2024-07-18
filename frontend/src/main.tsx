@@ -2,11 +2,13 @@ import ReactDOM from 'react-dom/client'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import App from './App.tsx'
-
+import { ThemeProvider } from './contexts/ThemeContext.tsx';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <>
-    <App />
+    <ThemeProvider>
+      <App />
+    </ThemeProvider>
     <ToastContainer />
   </>
 )

@@ -16,9 +16,17 @@ userRouter.post('/signup', async (c) => {
         if (!parsedBody.success) {
             return c.json({ success: false, error: parsedBody.error.formErrors.fieldErrors }, 400);
         }
-
         // const hashedPassword = await bcrypt.hash(body.password, 10);
         const prisma = getPrisma(c.env.DATABASE_URL);
+
+        // Check if the user already exists
+        const existingUser = await prisma.user.findUnique({
+            where: { email: body.email },
+        });
+        if (existingUser) {
+            return c.json({ success: false, error: 'User already exists' }, 409);
+        }
+
         // Create the user
         const user = await prisma.user.create({
             data: {
