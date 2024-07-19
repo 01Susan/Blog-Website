@@ -23,6 +23,8 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
 
 
     useEffect(() => {
+        console.log("isDarkTheme useeffext running", isDarkTheme);
+
         if (isDarkTheme) {
             document.documentElement.classList.add('dark');
         } else {

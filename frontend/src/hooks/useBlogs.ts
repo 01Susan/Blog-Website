@@ -1,30 +1,32 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { BACKEND_URL } from "../config";
 import axios from "axios";
 
 export const useBlogs = () => {
+    console.log("Use Blogs Hook is called");
     const [loading, setLoading] = useState<boolean>(true);
     const [blogs, setBlogs] = useState([]);
 
-    useEffect(() => {
-        const getBlogs = async () => {
-            try {
-                const response = await axios.get(`${BACKEND_URL}/api/v1/blog/bulk`, {
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": `${localStorage.getItem("token")}`
-                    }
-                });
-                setBlogs(response.data.blogs);
-            } catch (error) {
-                console.error("Failed to fetch blogs", error);
-            } finally {
-                setLoading(false);
-            }
-        };
 
+    const getBlogs = useCallback(async () => {
+        try {
+            const response = await axios.get(`${BACKEND_URL}/api/v1/blog/bulk`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `${localStorage.getItem("token")}`
+                }
+            });
+            setBlogs(response.data.blogs);
+        } catch (error) {
+            console.error("Failed to fetch blogs", error);
+        } finally {
+            setLoading(false);
+        }
+    }, [])
+
+    useEffect(() => {
         getBlogs();
-    }, []); // Empty dependency array means this effect runs once when the component mounts
+    }, [getBlogs]); // Empty dependency array means this effect runs once when the component mounts
 
     return {
         loading,
@@ -35,25 +37,26 @@ export const useBlogs = () => {
 export const useBlog = ({ id }: { id: string }) => {
     const [loading, setLoading] = useState<boolean>(true);
     const [blog, setBlog] = useState({});
-    useEffect(() => {
-        const getBlog = async () => {
-            try {
-                const response = await axios.get(`${BACKEND_URL}/api/v1/blog/${id}`, {
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": `${localStorage.getItem("token")}`
-                    }
-                });
-                setBlog(response.data.blog);
-            } catch (error) {
-                console.error("Failed to fetch blogs", error);
-            } finally {
-                setLoading(false);
-            }
-        };
 
-        getBlog();
+    const getBlog = useCallback(async () => {
+        try {
+            const response = await axios.get(`${BACKEND_URL}/api/v1/blog/${id}`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `${localStorage.getItem("token")}`
+                }
+            });
+            setBlog(response.data.blog);
+        } catch (error) {
+            console.error("Failed to fetch blogs", error);
+        } finally {
+            setLoading(false);
+        }
     }, [])
+
+    useEffect(() => {
+        getBlog();
+    }, [getBlog])
     return {
         loading,
         blog

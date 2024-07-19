@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import { useCallback } from 'react';
 
 type AvatarProps = {
     name: string;
@@ -6,12 +7,11 @@ type AvatarProps = {
 };
 
 export function Avatar({ name, size = "small" }: AvatarProps) {
-    function getNameInitials(name: string) {
-        return name
-            .replace(/[^a-zA-Z0-9]/g, '')
-            .slice(0, 2)
-            .toUpperCase();
-    }
+    const getNameInitials = useCallback((name: string) => {
+        const splitName = name.trim().split(/[\s]+/)
+        const avatarName = splitName[0].charAt(0) + splitName[splitName.length - 1].charAt(0)
+        return avatarName ? avatarName.toUpperCase() : 'AN';
+    }, [])
 
     const sizeClasses = clsx({
         'w-6 h-6 text-xs': size === "small",
