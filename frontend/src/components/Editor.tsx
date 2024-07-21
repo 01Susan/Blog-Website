@@ -55,13 +55,13 @@ export const Editor = () => {
     };
 
     return (
-        <div className="w-screen flex items-center justify-center mt-16">
+        <div className="w-screen flex items-center justify-center mt-16 bg-dark-100">
             <div className="w-1/2 flex gap-4 flex-col">
                 <div className='w-full'>
                     <input
                         onChange={handleTitleChange}
                         value={editorState.title}
-                        className="w-full h-auto py-3 border-l-2 px-5 border-slate-200 focus:outline-none font-bold text-2xl"
+                        className="w-full h-auto py-3 border-l-2 px-5 border-slate-200 focus:outline-none font-bold text-2xl dark:bg-dark-100 dark:text-white"
                         type="text"
                         required
                         placeholder="Title"
@@ -71,7 +71,7 @@ export const Editor = () => {
                     <p className='text-red-500'>{validationError.title[0]}</p>
                 )}
                 <QuillEditor
-                    className='w-full h-96 mt-2'
+                    className='w-full h-96 mt-2 dark:text-white'
                     theme="snow"
                     value={editorState.content}
                     onChange={handleContentChange}

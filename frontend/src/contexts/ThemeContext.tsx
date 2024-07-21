@@ -9,7 +9,10 @@ type ThemeContextType = {
 export const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
+
     const [isDarkTheme, setIsDarkTheme] = useState(false);
+    console.log("First: isDarkTheme", isDarkTheme);
+
 
     useEffect(() => {
         const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
@@ -23,12 +26,10 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
 
 
     useEffect(() => {
-        console.log("isDarkTheme useeffext running", isDarkTheme);
-
         if (isDarkTheme) {
-            document.documentElement.classList.add('dark');
+            document.body.classList.add('dark');
         } else {
-            document.documentElement.classList.remove('dark');
+            document.body.classList.remove('dark');
         }
     }, [isDarkTheme]);
 
