@@ -20,6 +20,15 @@ model User {
   password  String
   createdAt DateTime @default(now())
   posts     Post[]
+  Profile   Profile?
+}
+
+model Profile {
+  id             String  @id @default(uuid())
+  bio            String?
+  profilePicture String?
+  userId         String  @unique
+  user           User    @relation(fields: [userId], references: [id])
 }
 
 model Post {
